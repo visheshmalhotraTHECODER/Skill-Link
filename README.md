@@ -649,7 +649,6 @@ The original backend team documentation records the following module ownership:
 | Organisations, Products, Reservations | Project owner / contributor |
 | Escrow, Common utilities, Prisma | Shared |
 
-**Original repository:** [Shankar-0707/Skill-Link](https://github.com/Shankar-0707/Skill-Link)  
 **Showcase repository:** [visheshmalhotraTHECODER/Skill-Link](https://github.com/visheshmalhotraTHECODER/Skill-Link)  
 **Live application:** [https://www.linkskill.org.in/](https://www.linkskill.org.in/)
 
