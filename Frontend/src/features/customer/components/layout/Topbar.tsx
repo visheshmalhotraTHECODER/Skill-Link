@@ -1,0 +1,93 @@
+import React from 'react';
+import { Search, Bell, MessageSquare } from 'lucide-react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
+import type { CurrentUser } from '../../types/index';
+
+interface TopbarProps {
+  user: CurrentUser & { memberTier?: string };
+  activeTab: string;
+  onTabChange: (tab: string) => void;
+}
+
+const TABS = [''];
+
+export const Topbar: React.FC<TopbarProps> = ({ user, activeTab, onTabChange }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const isHomePage = location.pathname === '/user/home';
+  const query = searchParams.get('q') || '';
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value) {
+      setSearchParams({ q: value });
+    } else {
+      searchParams.delete('q');
+      setSearchParams(searchParams);
+    }
+  };
+
+  return (
+    <header className="fixed left-0 right-0 top-0 z-10 flex h-[64px] items-center gap-3 border-b border-border bg-background px-4 md:left-[200px] md:gap-6 md:px-6">
+      {/* Search - Only visible on Home Page */}
+      {isHomePage ? (
+        <div className="relative flex-1 md:max-w-md">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <input
+            type="text"
+            value={query}
+            onChange={handleSearchChange}
+            placeholder="Search service workers or shop products..."
+            className="w-full pl-9 pr-4 py-2 bg-surface-container rounded-lg text-sm font-body text-foreground placeholder:text-muted-foreground border border-transparent focus:border-outline focus:outline-none transition-colors"
+          />
+        </div>
+      ) : (
+        <div className="flex-1" />
+      )}
+
+      {/* Tabs */}
+      <nav className="hidden items-center gap-6 sm:flex">
+        {TABS.map(tab => (
+          <button
+            key={tab}
+            onClick={() => onTabChange(tab)}
+            className={`text-sm font-label font-medium pb-0.5 transition-colors relative
+              ${activeTab === tab
+                ? 'text-foreground after:absolute after:bottom-[-22px] after:left-0 after:right-0 after:h-[2px] after:bg-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+              }`}
+          >
+            {tab}
+          </button>
+        ))}
+      </nav>
+
+      {/* Right icons */}
+      <div className="ml-auto flex items-center gap-2 md:gap-3">
+        <button className="relative w-9 h-9 rounded-lg flex items-center justify-center hover:bg-surface-container transition-colors">
+          <Bell className="w-4.5 h-4.5 text-muted-foreground" />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-destructive rounded-full" />
+        </button>
+        <button className="w-9 h-9 rounded-lg flex items-center justify-center hover:bg-surface-container transition-colors">
+          <MessageSquare className="w-4.5 h-4.5 text-muted-foreground" />
+        </button>
+
+        {/* User */}
+        <div className="flex items-center gap-2.5 pl-2 border-l border-border">
+          <div className="hidden text-right sm:block">
+            <p className="text-sm font-label font-semibold text-foreground leading-tight">{user.name}</p>
+            <p className="text-[11px] text-muted-foreground font-body">{user.memberTier ?? 'Member'}</p>
+          </div>
+          <img
+            src={user.profileImage ?? `https://i.pravatar.cc/36?u=${user.id}`}
+            alt={user.name}
+            className="w-9 h-9 rounded-full object-cover border-2 border-border cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={() => navigate('/user/settings')}
+          />
+        </div>
+      </div>
+    </header>
+  );
+};
