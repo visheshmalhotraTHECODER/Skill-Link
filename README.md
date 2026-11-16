@@ -658,7 +658,7 @@ The original backend team documentation records the following module ownership:
 ## Repository and Usage Notes
 
 - This repository preserves the project source layout and existing frontend/backend documentation.
-- The original repository does not provide a root open-source licence file; the backend package metadata is marked `UNLICENSED`. Permission to showcase this copy should not be interpreted as a blanket open-source licence or permission to redistribute beyond the agreed scope.
+- No root open-source licence file is included; the backend package metadata is marked `UNLICENSED`. Permission to showcase this copy should not be interpreted as a blanket open-source licence or permission to redistribute beyond the agreed scope.
 - Keep contributor attribution and original project ownership references intact.
 - For additional usage or redistribution permissions, coordinate with the original project owner.
 
